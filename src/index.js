@@ -75,27 +75,24 @@ const fetchSlowpokeData = () => {
   /*Fetch singular pokemon here*/
   image.src = data.sprites.front_default
   pokemonAttr(data);
-  pokemonTypes()
   });
 
   const pokemonAttr = (data) => {
     name.textContent = data.name
     weight.textContent = data.weight
     height.textContent = data.height
+
+   const typeNames = data.types.map((pokemonType) => pokemonType.type.name).join(", ");
+  types.textContent = typeNames;
+
   console.log(data.name)
   console.log(data.weight)
   console.log(data.height)
+  console.log(typeNames)
+}
+  } 
 
-  // data.results.forEach((pokemon) => {
-  //   console.log(pokemon.name)
-//const pokemonTypes = (pokemonType) => {
-  data.types.forEach((pokemonType) => {
-    types.textContent = pokemonType.type.name
-    console.log(pokemonType.type.name)
-  } )
-}
   
-}
 
 fetchSlowpokeData();
 // 5) After familiarizing with the data, we will use the data
