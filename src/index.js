@@ -13,6 +13,7 @@ const name = document.getElementById("name");
 const weight = document.getElementById("weight");
 const height = document.getElementById("height");
 const types = document.getElementById("types");
+const urlLimitPokemons = 79;
 
 // 1) Start with updating the fetchPokemons function so that
 //    it's fetching the pokemons from the pokemon endpoint and
@@ -20,17 +21,32 @@ const types = document.getElementById("types");
 //    HINT --> Don't forget to invoke the function
 
 const fetchPokemons = () => {
-  /*Fetch all pokemons here*/
-};
-
+  fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${urlLimitPokemons}`)
+  .then((response) => {
+    return response.json()
+  })
+  
+  .then(data => {
+    console.log()
 // 2) a) As you can see, we get some metadata as well as
 //    the results of the fetch. Change the console.log so
 //    that you only log the array of pokemon objects.
-
+    console.log(data.results)
 //    b) Log only the name of the first pokemon in the
 //    pokemon objects array
-
+    console.log(data.results[0].name)
+  // .then(data => console.log(data.results))
 //    c) Log the names of all pokemons in the array
+   data.results.forEach((pokemon) => {
+    console.log(pokemon.name)
+   })
+  })
+  }
+    /*Fetch all pokemons here*/
+fetchPokemons();
+
+
+
 
 // 3) You might know that there are more than 20 pokemons
 //    in the pokedex. Add a query parameter
@@ -39,16 +55,46 @@ const fetchPokemons = () => {
 //    and pick a pokemon that you would like to continue
 //    working with. Copy the pokemon's URL.
 
+//https://pokeapi.co/api/v2/pokemon/79/
+
 // 4) Now that we've picked a pokemon, we will do a new fetch
 //    to the URL we copied. Since that's another endpoint,
 //    we will create a new fetch inside the fetchBulbasaurData
 //    function (change the function's name to fit your pokemon).
 //    Log the data in the console and see what you find.
 
-const fetchBulbasaurData = () => {
+const fetchSlowpokeData = () => {
+  fetch(`https://pokeapi.co/api/v2/pokemon/79/`)
+  .then((response) => {
+    return response.json()
+  })
+  
+  .then(data => {
+    console.log(data)
+    console.log(data.name)
   /*Fetch singular pokemon here*/
-};
+  image.src = data.sprites.front_default
+  pokemonAttr(data);
+  });
 
+  const pokemonAttr = (data) => {
+    name.textContent = data.name
+    weight.textContent = data.weight
+    height.textContent = data.height
+
+   const typeNames = data.types.map((pokemonType) => pokemonType.type.name).join(", ");
+  types.textContent = typeNames;
+
+  console.log(data.name)
+  console.log(data.weight)
+  console.log(data.height)
+  console.log(typeNames)
+}
+  } 
+
+  
+
+fetchSlowpokeData();
 // 5) After familiarizing with the data, we will use the data
 //    to change our table. We will give you the image as a start.
 //    If you named the data something else than json, you change the
